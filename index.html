@@ -206,7 +206,7 @@ footer p{margin:0 0 8px;max-width:48em}
         <li><a href="https://www.sunkuo.cc/gov-open-data-dashboard/" target="_blank" rel="noopener">台灣長照機構查詢儀表板</a></li>
       </ul>
     </nav>
-    <p>本站為個人非營利專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。</p>
+    <p>本站為個人非營利專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。本站使用 Google Analytics 統計瀏覽與連結點擊次數，不蒐集可識別個人的資料。</p>
     <p>參選人名單整理自媒體報導的各選區登記名單，正式名單以桃園市選舉委員會公告為準。貼文與新聞版權屬原作者與原媒體，本站只提供連結，不轉載內容。</p>
     <p>發現資料有誤或想申請更正，請聯絡站長：<a href="mailto:sun889999@gmail.com">sun889999@gmail.com</a>。</p>
   </div>
@@ -390,7 +390,7 @@ function cardHTML(c){
     return '<a href="'+esc(s[p[0]])+'" target="_blank" rel="noopener noreferrer">'+p[1]+'</a>';
   }).join("");
   var kw = c.name+" "+SEARCH_KW;
-  return '<article class="card'+(PCLASS[c.party]?' '+PCLASS[c.party]:'')+'"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
+  return '<article class="card'+(PCLASS[c.party]?' '+PCLASS[c.party]:'')+'" data-name="'+esc(c.name)+'" data-party="'+esc(c.party)+'" data-dist="'+esc(DISTRICTS[c.dist-1].name)+'"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
     + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+(INCUMBENTS.indexOf(c.name)>-1?' <span class="inc">現任議員</span>':'')+'</p></div></div>'
     + '<div class="acct">'+(links || '<span class="todo">社群帳號待補</span>')+'</div>'
     + '<details><summary>更多連結</summary><div class="links">'
@@ -472,6 +472,21 @@ el("area").addEventListener("change", function(){state.area=this.value; render()
 
 renderParties(); render();
 renderList("news", NEWS); renderList("official", OFFICIAL);
+/* GA 事件：候選人卡片內任一連結被點擊（社群帳號、搜尋連結），以事件參數區分候選人、政黨、選區與連結類型 */
+function trackClick(ev){
+  var a = ev.target.closest && ev.target.closest("a");
+  var card = a && a.closest(".card");
+  if(!card || typeof gtag !== "function") return;
+  gtag("event", "candidate_click", {
+    candidate_name: card.getAttribute("data-name"),
+    party: card.getAttribute("data-party"),
+    district: card.getAttribute("data-dist"),
+    platform: a.textContent.trim()
+  });
+}
+el("districts").addEventListener("click", trackClick);
+el("districts").addEventListener("auxclick", trackClick);
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
 }
