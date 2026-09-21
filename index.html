@@ -7,6 +7,12 @@
 <meta name="description" content="依 14 個選區整理 2026 年桃園市議員參選人的社群帳號與相關連結，可依政黨、選區與姓名篩選。投票日 2026 年 11 月 28 日。">
 <link rel="canonical" href="https://www.sunkuo.cc/taoyuan-candidates/">
 <meta name="theme-color" content="#f3f4f6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="桃園議員">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="桃園市議員參選人動態">
@@ -119,6 +125,10 @@ details summary{font-size:13px;color:var(--muted);cursor:pointer;min-height:28px
 
 footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:14px;color:var(--muted);margin-top:24px}
 footer p{margin:0 0 8px;max-width:48em}
+.related{margin:0 0 18px}
+.related h2{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 6px}
+.related ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
+.related a{color:var(--ink);text-underline-offset:3px}
 .hidden{display:none!important}
 @media (max-width:640px){
   .head{grid-template-columns:1fr}
@@ -181,6 +191,12 @@ footer p{margin:0 0 8px;max-width:48em}
 
 <footer>
   <div class="wrap">
+    <nav class="related" aria-labelledby="rel-h">
+      <h2 id="rel-h">相關連結</h2>
+      <ul>
+        <li><a href="https://www.sunkuo.cc/gov-open-data-dashboard/" target="_blank" rel="noopener">台灣長照機構查詢儀表板</a></li>
+      </ul>
+    </nav>
     <p>本站為個人非營利專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。</p>
     <p>參選人名單整理自媒體報導的各選區登記名單，正式名單以桃園市選舉委員會公告為準。貼文與新聞版權屬原作者與原媒體，本站只提供連結，不轉載內容。</p>
     <p>發現資料有誤或想申請更正，請聯絡站長：<a href="mailto:sun889999@gmail.com">sun889999@gmail.com</a>。</p>
@@ -447,6 +463,9 @@ el("area").addEventListener("change", function(){state.area=this.value; render()
 
 renderParties(); render();
 renderList("news", NEWS); renderList("official", OFFICIAL);
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
+}
 </script>
 </body>
 </html>
