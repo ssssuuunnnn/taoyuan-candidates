@@ -28,6 +28,7 @@
 :root{
   --bg:#f3f4f6; --surface:#ffffff; --ink:#1b2438; --muted:#5d667a; --line:#d9dde5;
   --stamp:#c2352b; --soft:#e9ecf2; --focus:#1a5fd0;
+  --p-kmt:#000099; --p-dpp:#1B9431; --p-tpp:#28C8C8; --p-pfp:#FF6310; --p-labor:#FF0000; --p-oba:#F4E6D3;
   --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   box-sizing:border-box;
@@ -38,11 +39,13 @@
   :root:not([data-theme="light"]){
     --bg:#121722; --surface:#1b2232; --ink:#e8ebf2; --muted:#a2abbd; --line:#2d3650;
     --stamp:#e5574c; --soft:#252d42; --focus:#7fb0ff;
+    --p-kmt:#4d4dff;
   }
 }
 :root[data-theme="dark"]{
   --bg:#121722; --surface:#1b2232; --ink:#e8ebf2; --muted:#a2abbd; --line:#2d3650;
   --stamp:#e5574c; --soft:#252d42; --focus:#7fb0ff;
+  --p-kmt:#4d4dff;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
@@ -85,6 +88,13 @@ h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,46px);line-
 .dist-h a{font-size:13px;color:var(--muted);margin-left:auto}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.card,.parties button{--pt:color-mix(in srgb,var(--pc,var(--ink)) 45%,var(--ink))}
+.pk{--pc:var(--p-kmt)} .pd{--pc:var(--p-dpp)} .pt{--pc:var(--p-tpp)} .pf{--pc:var(--p-pfp)} .pl{--pc:var(--p-labor)} .po{--pc:var(--p-oba)}
+.card[class*=" p"]{box-shadow:inset 4px 0 0 var(--pc);background:color-mix(in srgb,var(--pc) 8%,var(--surface))}
+.card[class*=" p"] .seal{background:color-mix(in srgb,var(--pc) 18%,var(--surface));border-color:var(--pc);color:var(--pt)}
+.card[class*=" p"] .meta{color:var(--pt);font-weight:500}
+.parties button[class*="p"]::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--pc);margin-right:6px}
+.inc{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:12px;font-weight:500;line-height:1.7;white-space:nowrap}
 .who{display:flex;gap:12px;align-items:center}
 .seal{flex:none;width:44px;height:44px;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;border:1px solid var(--line)}
 .nm{font-family:var(--serif);font-size:19px;line-height:1.25;margin:0}
@@ -148,16 +158,12 @@ footer p{margin:0 0 8px;max-width:48em}
     <div class="tools" id="tools">
       <input id="q" type="search" placeholder="搜尋姓名" aria-label="搜尋姓名">
       <select id="area" aria-label="選擇選區"></select>
-      <select id="sort" aria-label="排序方式">
-        <option value="random">隨機排序</option>
-        <option value="name">依姓名</option>
-      </select>
     </div>
   </div>
 
   <section id="panel-c" role="tabpanel" aria-labelledby="tab-c">
     <div class="parties" id="parties" role="group" aria-label="依政黨篩選"></div>
-    <p class="notice">選區依編號排列；同一選區內，預設每次載入隨機排序，所有參選人的呈現方式一致。</p>
+    <p class="notice">選區依編號排列；同一選區內依姓名第一個字的筆畫排序，排序固定，所有參選人的呈現方式一致。</p>
     <p class="count" id="count" aria-live="polite"></p>
     <div id="districts"></div>
   </section>
@@ -245,7 +251,7 @@ var SOCIAL = {
   "孫韻璇": { fb:"https://www.facebook.com/sun0976315743/", ig:"https://www.instagram.com/didisun7414/" },
   "陳雅倫": { fb:"https://www.facebook.com/profile.php?id=100063574997048", ig:"https://www.instagram.com/yalunchenyalunchen/", threads:"https://www.threads.com/@yalunchenyalunchen" },
   "李宗豪": { fb:"https://www.facebook.com/TYleehao/", threads:"https://www.threads.com/@tyleehao" },
-  "周曉芸": { fb:"https://www.facebook.com/miss.kinmen/", ig:"https://www.instagram.com/miss.kinmen/", threads:"https://www.threads.com/@miss.kinmen" },
+  "周曉芸": { fb:"https://www.facebook.com/miss.chou0308/", web:"https://natalie-0308.oen.tw/", ig:"https://www.instagram.com/miss.kinmen/", threads:"https://www.threads.com/@miss.kinmen" },
   "劉茂羣": { fb:"https://www.facebook.com/Liu3755831/" },
   "朱珍瑤": { fb:"https://www.facebook.com/yoyo0715/", ig:"https://www.instagram.com/yoyo0715christinna/", threads:"https://www.threads.com/@yoyo0715christinna" },
   "楊朝偉": { ig:"https://www.instagram.com/yang00516/" },
@@ -280,7 +286,7 @@ var SOCIAL = {
   "黃敬平": { fb:"https://www.facebook.com/ping4193260/" },
   "王珮毓": { fb:"https://www.facebook.com/581peiyu/", ig:"https://www.instagram.com/peiyuwangpeiyu/", threads:"https://www.threads.com/@peiyuwangpeiyu" },
   "劉仁照": { fb:"https://www.facebook.com/vlog72/" },
-  "吳正吉": { fb:"https://www.facebook.com/jiu.ji.5/" },
+  "吳正吉": { fb:"https://www.facebook.com/wuchenchi2018/" },
   "高宇彥": { fb:"https://www.facebook.com/yuyenkao2698" },
   "周玉琴": { fb:"https://www.facebook.com/p/%E6%A1%83%E5%9C%92%E5%B8%82%E8%AD%B0%E5%93%A1%E5%91%A8%E7%8E%89%E7%90%B4-100063477259690/" },
   "項柏翰": { ig:"https://www.instagram.com/bigelephant.bro/" },
@@ -301,12 +307,16 @@ var SOCIAL = {
   "陳瑛": { fb:"https://www.facebook.com/chenyin0620/" },
   "簡志偉": { fb:"https://www.facebook.com/cwchien617" },
   "林秋霖": { fb:"https://www.facebook.com/JackLin0921/" },
-  "蘇偉恩": { fb:"https://www.facebook.com/batu.watan1/", ig:"https://www.instagram.com/batu.watan/" }
+  "蘇偉恩": { fb:"https://www.facebook.com/batu.watan1/", ig:"https://www.instagram.com/batu.watan/" },
+  "林晏良": { fb:"https://www.facebook.com/LinKiiya/", ig:"https://www.instagram.com/linkiya/", threads:"https://www.threads.com/@linkiya" }
 };
 
-var PLAT = [["fb","Facebook"],["ig","Instagram"],["yt","YouTube"],["threads","Threads"],["x","X"]];
+var PLAT = [["fb","Facebook"],["ig","Instagram"],["yt","YouTube"],["threads","Threads"],["x","X"],["web","個人網站"]];
 var PARTY_ORDER = ["中國國民黨","民主進步黨","台灣民眾黨","親民黨","勞動黨","小民參政歐巴桑聯盟","無黨籍"];
 var SEARCH_KW = "桃園 議員";
+/* 現任議員（第 3 屆，2022–2026）：依維基百科「桃園市議會」，已排除辭職者；名單變動時請更新 */
+var INCUMBENTS = ["黃婉如","凌濤","陳美梅","林政賢","張碩芳","詹江村","李光達","余信憲","黃瓊慧","黃家齊","于北辰","孫韻璇","陳雅倫","李宗豪","朱珍瑤","楊朝偉","許家睿","呂林小鳳","錢龍","張桂綿","許清順","劉勝全","徐其萬","游吾和","李柏坊","陳治文","葉明月","梁為超","邱奕勝","張曉昀","黃崇真","彭俊豪","魏筠","劉曾玉春","謝美英","舒翠玲","陳韋曄","黃敬平","王珮毓","劉仁照","周玉琴","鄭淑方","李家興","劉熒隆","徐玉樹","陳睿生","吳進昌","許更生","王仙蓮","林志強","張秀菊","楊進福","陳瑛","簡志偉","蘇偉恩"];
+var PCLASS = {"中國國民黨":"pk","民主進步黨":"pd","台灣民眾黨":"pt","親民黨":"pf","勞動黨":"pl","小民參政歐巴桑聯盟":"po"};
 
 var NEWS = [
   { title:"桃園市長2人、議員109人完成登記　各選區參選名單一次看", source:"聯合報", tag:"登記名單",
@@ -342,11 +352,12 @@ function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&am
 var ALL = [];
 DISTRICTS.forEach(function(d){
   Object.keys(d.parties).forEach(function(p){
-    d.parties[p].forEach(function(n){ ALL.push({name:n, party:p, dist:d.id, r:Math.random()}); });
+    d.parties[p].forEach(function(n){ ALL.push({name:n, party:p, dist:d.id}); });
   });
 });
 
-var state = {party:"all", area:"all", q:"", sort:"random"};
+var ZH = new Intl.Collator(["zh-Hant-TW-u-co-stroke","zh-Hant"]);
+var state = {party:"all", area:"all", q:""};
 
 function cardHTML(c){
   var s = SOCIAL[c.name] || {};
@@ -354,8 +365,8 @@ function cardHTML(c){
     return '<a href="'+esc(s[p[0]])+'" target="_blank" rel="noopener noreferrer">'+p[1]+'</a>';
   }).join("");
   var kw = c.name+" "+SEARCH_KW;
-  return '<article class="card"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
-    + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+'</p></div></div>'
+  return '<article class="card'+(PCLASS[c.party]?' '+PCLASS[c.party]:'')+'"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
+    + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+(INCUMBENTS.indexOf(c.name)>-1?' <span class="inc">現任議員</span>':'')+'</p></div></div>'
     + '<div class="acct">'+(links || '<span class="todo">社群帳號待補</span>')+'</div>'
     + '<details><summary>更多連結</summary><div class="links">'
     + '<a href="https://news.google.com/search?q='+enc(kw)+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant" target="_blank" rel="noopener noreferrer">Google 新聞</a>'
@@ -378,8 +389,7 @@ function render(){
   DISTRICTS.forEach(function(d){
     var list = ALL.filter(function(c){return c.dist===d.id && match(c);});
     if(!list.length) return;
-    if(state.sort==="name") list.sort(function(a,b){return a.name.localeCompare(b.name,"zh-Hant");});
-    else list.sort(function(a,b){return a.r-b.r;});
+    list.sort(function(a,b){return ZH.compare(a.name.charAt(0),b.name.charAt(0)) || ZH.compare(a.name,b.name);});
     shown += list.length;
     var total = ALL.filter(function(c){return c.dist===d.id;}).length;
     html += '<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
@@ -397,7 +407,7 @@ function renderParties(){
   ALL.forEach(function(c){counts[c.party]=(counts[c.party]||0)+1;});
   var items = [["all","全部",ALL.length]].concat(PARTY_ORDER.filter(function(p){return counts[p];}).map(function(p){return [p,p,counts[p]];}));
   el("parties").innerHTML = items.map(function(i){
-    return '<button type="button" data-p="'+esc(i[0])+'" aria-pressed="'+(state.party===i[0])+'">'+esc(i[1])+'<span class="c">'+i[2]+'</span></button>';
+    return '<button type="button"'+(PCLASS[i[0]]?' class="'+PCLASS[i[0]]+'"':'')+' data-p="'+esc(i[0])+'" aria-pressed="'+(state.party===i[0])+'">'+esc(i[1])+'<span class="c">'+i[2]+'</span></button>';
   }).join("");
 }
 
@@ -427,7 +437,6 @@ el("parties").addEventListener("click", function(e){
 });
 el("q").addEventListener("input", function(){state.q=this.value.trim(); render();});
 el("area").addEventListener("change", function(){state.area=this.value; render();});
-el("sort").addEventListener("change", function(){state.sort=this.value; render();});
 ["c","n","o"].forEach(function(k){el("tab-"+k).addEventListener("click", function(){showTab(k);});});
 
 (function countdown(){
