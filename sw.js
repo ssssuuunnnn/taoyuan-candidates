@@ -1,8 +1,9 @@
 /* Service worker：頁面與資料走「網路優先」，離線時退回快取，所以資料更新後不需改版本號。
    只有改動這個檔案的快取策略或預快取清單時，才需要把 VER 往上加。 */
-var VER = "v1";
+var VER = "v2";
 var CACHE = "tyc-" + VER;
-var CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
+var CORE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png",
+  "newtaipei.html", "manifest-newtaipei.webmanifest", "icon-nt-192.png", "icon-nt-512.png", "apple-touch-icon-nt.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); }).then(function () { return self.skipWaiting(); }));
@@ -35,7 +36,7 @@ self.addEventListener("fetch", function (e) {
   if (req.mode === "navigate") {
     e.respondWith(
       fetch(req).then(function (res) { return put(req, res); })
-        .catch(function () { return caches.match(req).then(function (r) { return r || caches.match("index.html"); }); })
+        .catch(function () { return caches.match(req).then(function (r) { return r || caches.match(url.pathname.slice(-13) === "newtaipei.html" ? "newtaipei.html" : "index.html"); }); })
     );
     return;
   }
