@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>桃園市議員參選人動態｜2026 地方選舉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f4f6; --surface:#ffffff; --ink:#1b2438; --muted:#5d667a; --line:#d9dde5;
+  --stamp:#c2352b; --soft:#e9ecf2; --focus:#1a5fd0;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121722; --surface:#1b2232; --ink:#e8ebf2; --muted:#a2abbd; --line:#2d3650;
+    --stamp:#e5574c; --soft:#252d42; --focus:#7fb0ff;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121722; --surface:#1b2232; --ink:#e8ebf2; --muted:#a2abbd; --line:#2d3650;
+  --stamp:#e5574c; --soft:#252d42; --focus:#7fb0ff;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-text-size-adjust:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+header{padding:36px 0 28px;border-bottom:1px solid var(--line)}
+.head{display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center}
+h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,46px);line-height:1.2;margin:0 0 10px;letter-spacing:.02em}
+.lede{margin:0;color:var(--muted);max-width:34em}
+.stub{position:relative;background:var(--surface);border:2px dashed var(--stamp);border-radius:6px;padding:16px 26px 14px;text-align:center;min-width:170px}
+.stub::before,.stub::after{content:"";position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px dashed var(--stamp);transform:translateY(-50%)}
+.stub::before{left:-9px;border-left-color:transparent;border-top-color:transparent;border-bottom-color:transparent}
+.stub::after{right:-9px;border-right-color:transparent;border-top-color:transparent;border-bottom-color:transparent}
+.stub .n{font-family:var(--serif);font-weight:900;font-size:56px;line-height:1;color:var(--stamp)}
+.stub .u{font-size:14px;color:var(--muted);margin-top:4px}
+.stub .d{font-size:13px;font-weight:700;margin-top:8px;padding-top:8px;border-top:1px solid var(--line)}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:20px 0 8px}
+.tabs{display:flex;gap:6px;background:var(--soft);padding:4px;border-radius:10px}
+.tabs button{font:inherit;font-weight:500;border:0;background:transparent;color:var(--muted);padding:8px 16px;border-radius:7px;cursor:pointer;min-height:40px}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(20,30,50,.15)}
+.tools{display:flex;gap:10px;flex-wrap:wrap}
+.tools input,.tools select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-height:40px;max-width:100%}
+
+.parties{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}
+.parties button{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;min-height:38px;cursor:pointer}
+.parties button .c{color:var(--muted);margin-left:4px}
+.parties button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.parties button[aria-pressed="true"] .c{color:inherit;opacity:.75}
+.notice{font-size:14px;color:var(--muted);margin:8px 0 6px}
+.count{font-size:14px;font-weight:700;margin:0 0 4px}
+
+.dist{padding:26px 0 6px}
+.dist-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:14px}
+.dist-h h2{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0}
+.dist-h .s{font-size:14px;color:var(--muted)}
+.dist-h a{font-size:13px;color:var(--muted);margin-left:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.who{display:flex;gap:12px;align-items:center}
+.seal{flex:none;width:44px;height:44px;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;border:1px solid var(--line)}
+.nm{font-family:var(--serif);font-size:19px;line-height:1.25;margin:0}
+.meta{margin:1px 0 0;font-size:13px;color:var(--muted)}
+.acct{display:flex;flex-wrap:wrap;gap:6px}
+.acct a{font-size:13px;text-decoration:none;color:var(--stamp);border:1px solid var(--line);border-radius:6px;padding:4px 10px;min-height:32px;display:inline-flex;align-items:center;font-weight:500}
+.acct a:hover{border-color:var(--stamp)}
+.todo{font-size:13px;color:var(--muted)}
+details summary{font-size:13px;color:var(--muted);cursor:pointer;min-height:28px;display:flex;align-items:center}
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.links a{font-size:13px;text-decoration:none;background:var(--soft);padding:5px 11px;border-radius:999px;min-height:32px;display:inline-flex;align-items:center}
+.links a:hover{background:var(--line)}
+.empty{padding:30px 0;color:var(--muted)}
+
+.news{list-style:none;margin:0;padding:0 0 36px;display:grid;gap:12px}
+.news li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.news a.t{font-weight:700;text-decoration:none;font-size:17px}
+.news a.t:hover{text-decoration:underline}
+.news p{margin:6px 0 8px;color:var(--muted);font-size:15px}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--soft);margin-right:6px}
+.sample{font-size:13px;color:var(--muted);padding:6px 0 12px;margin:0}
+
+footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:14px;color:var(--muted);margin-top:24px}
+footer p{margin:0 0 8px;max-width:48em}
+.hidden{display:none!important}
+@media (max-width:640px){
+  .head{grid-template-columns:1fr}
+  .stub{justify-self:start}
+  .tools{width:100%}
+  .tools input,.tools select{flex:1 1 140px}
+  .dist-h a{margin-left:0}
+}
+@media (prefers-reduced-motion:no-preference){
+  .card{transition:border-color .15s}
+  .card:hover{border-color:var(--stamp)}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap head">
+    <div>
+      <h1>桃園市議員參選人動態</h1>
+      <p class="lede">2026 年地方選舉，依 14 個選區整理各參選人的社群帳號與相關連結，可依政黨篩選。點擊後會前往原平台或原報導。</p>
+    </div>
+    <div class="stub" aria-live="polite">
+      <div class="n" id="days">--</div>
+      <div class="u">天後投票</div>
+      <div class="d">2026 年 11 月 28 日</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="內容切換">
+      <button role="tab" id="tab-c" aria-selected="true" aria-controls="panel-c">參選人</button>
+      <button role="tab" id="tab-n" aria-selected="false" aria-controls="panel-n">新聞</button>
+      <button role="tab" id="tab-o" aria-selected="false" aria-controls="panel-o">官方資料</button>
+    </div>
+    <div class="tools" id="tools">
+      <input id="q" type="search" placeholder="搜尋姓名" aria-label="搜尋姓名">
+      <select id="area" aria-label="選擇選區"></select>
+      <select id="sort" aria-label="排序方式">
+        <option value="random">隨機排序</option>
+        <option value="name">依姓名</option>
+      </select>
+    </div>
+  </div>
+
+  <section id="panel-c" role="tabpanel" aria-labelledby="tab-c">
+    <div class="parties" id="parties" role="group" aria-label="依政黨篩選"></div>
+    <p class="notice">選區依編號排列；同一選區內，預設每次載入隨機排序，所有參選人的呈現方式一致。</p>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div id="districts"></div>
+  </section>
+
+  <section id="panel-n" role="tabpanel" aria-labelledby="tab-n" class="hidden">
+    <p class="sample">下列為示範資料。正式版會由排程每 30 分鐘抓取各媒體 RSS，只顯示標題、來源與連結。</p>
+    <ul class="news" id="news"></ul>
+  </section>
+
+  <section id="panel-o" role="tabpanel" aria-labelledby="tab-o" class="hidden">
+    <p class="sample">以下皆為政府機關或新聞網站，內容以各機關公布為準。本站只提供連結，不複製內容。</p>
+    <ul class="news" id="official"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>本站為個人非營利專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。</p>
+    <p>參選人名單整理自媒體報導的各選區登記名單，正式名單以桃園市選舉委員會公告為準。貼文與新聞版權屬原作者與原媒體，本站只提供連結，不轉載內容。</p>
+    <p>發現資料有誤或想申請更正，請聯絡站長（聯絡方式待補）。</p>
+  </div>
+</footer>
+
+<script>
+/* ===== 選區與參選人名單 =====
+   name：選區名稱，seats：席次，src：名單來源，parties：政黨 → 參選人。 */
+var DISTRICTS = [
+ {id:1,name:"桃園區",seats:12,src:"https://tyenews.com/2026/09/1402962",parties:{
+  "中國國民黨":["黃婉如","凌濤","陳美梅","林政賢","張碩芳","詹江村"],
+  "民主進步黨":["李光達","余信憲","黃瓊慧","李柏瑟","黃家齊"],
+  "台灣民眾黨":["徐千晴"],"勞動黨":["許孟祥"],"小民參政歐巴桑聯盟":["沈佩玲"],
+  "無黨籍":["朱永煇","蕭湘瀚","于北辰","李凱倫","佀廣洋","王妃"]}},
+ {id:2,name:"龜山區",seats:5,src:"https://tyenews.com/2026/09/1402950",parties:{
+  "中國國民黨":["林明義","江冠妤","高華駿","孫韻璇"],
+  "民主進步黨":["陳雅倫","李宗豪"],"台灣民眾黨":["周曉芸"],"親民黨":["陳泓維"],"無黨籍":["呂學記"]}},
+ {id:3,name:"八德區",seats:5,src:"https://tyenews.com/2026/09/1402951",parties:{
+  "中國國民黨":["劉茂羣","朱珍瑤","楊朝偉"],
+  "民主進步黨":["許家睿","蔡永芳","呂林小鳳"],"台灣民眾黨":["林晏良"],"無黨籍":["段林淑婷"]}},
+ {id:4,name:"蘆竹區",seats:4,src:"https://tyenews.com/2026/09/1402952",parties:{
+  "中國國民黨":["錢龍","張桂綿"],"民主進步黨":["許清順","胡家智"],"無黨籍":["劉勝全","郭麗華"]}},
+ {id:5,name:"大園區",seats:2,src:"https://tyenews.com/2026/09/1402953",parties:{
+  "中國國民黨":["徐其萬"],"民主進步黨":["游吾和"],"無黨籍":["吳文凱"]}},
+ {id:6,name:"大溪區、復興區",seats:2,src:"https://tyenews.com/2026/09/1402954",parties:{
+  "中國國民黨":["李柏坊"],"民主進步黨":["陳治文"],"親民黨":["徐慈檉"],"無黨籍":["劉儲禎","江國輝"]}},
+ {id:7,name:"中壢區",seats:11,src:"https://tyenews.com/2026/09/1402955",parties:{
+  "中國國民黨":["彭康傑","葉明月","劉安祺","吳睿霖","梁為超","邱奕勝"],
+  "民主進步黨":["張曉昀","黃崇真","彭俊豪","魏筠"],
+  "無黨籍":["毛嘉慶","劉曾玉春","張兆恩","張仲方","李欣","謝美英","徐盛揚"]}},
+ {id:8,name:"平鎮區",seats:6,src:"https://tyenews.com/2026/09/1402956",parties:{
+  "中國國民黨":["舒翠玲","陳韋曄","黃敬平","彭柏霖"],
+  "民主進步黨":["王珮毓","劉仁照"],"台灣民眾黨":["吳正吉"],"無黨籍":["高宇彥","白丞堯","羅文欽"]}},
+ {id:9,name:"楊梅區",seats:4,src:"https://tyenews.com/2026/09/1402957",parties:{
+  "中國國民黨":["周玉琴","古振豐"],"民主進步黨":["項柏翰","鄭淑方"],"無黨籍":["劉定唐","李家興","黃盈淇"]}},
+ {id:10,name:"龍潭區",seats:3,src:"https://tyenews.com/2026/09/1402958",parties:{
+  "中國國民黨":["劉熒隆","徐玉樹","林昭賢"],"民主進步黨":["張贊聞"],"無黨籍":["吳平娥"]}},
+ {id:11,name:"新屋區",seats:1,src:"https://tyenews.com/2026/09/1402959",parties:{
+  "民主進步黨":["陳睿生"],"無黨籍":["邱文威"]}},
+ {id:12,name:"觀音區",seats:2,src:"https://tyenews.com/2026/09/1402960",parties:{
+  "中國國民黨":["吳進昌"],"民主進步黨":["張佩芸"],"無黨籍":["許更生"]}},
+ {id:13,name:"平地原住民",seats:4,src:"https://tyenews.com/2026/09/1402961",parties:{
+  "中國國民黨":["王仙蓮","陳卉蓁"],"民主進步黨":["林志強"],"無黨籍":["張秀菊","楊進福","李鴻志"]}},
+ {id:14,name:"山地原住民",seats:4,src:"https://tyenews.com/2026/09/1402963",parties:{
+  "中國國民黨":["陳瑛","張倉豪","簡志偉"],"民主進步黨":["謝卓儒"],"無黨籍":["林秋霖","邱伯倫","蘇偉恩","曾庭筠"]}}
+];
+
+/* ===== 社群帳號：以姓名為 key，填入網址即可。欄位：fb / ig / yt / threads / x ===== */
+var SOCIAL = {
+  "彭俊豪": { fb:"https://www.facebook.com/pengwintaoyuan" }
+};
+
+var PLAT = [["fb","Facebook"],["ig","Instagram"],["yt","YouTube"],["threads","Threads"],["x","X"]];
+var PARTY_ORDER = ["中國國民黨","民主進步黨","台灣民眾黨","親民黨","勞動黨","小民參政歐巴桑聯盟","無黨籍"];
+var SEARCH_KW = "桃園 議員";
+
+var NEWS = [
+  { title:"桃園市長2人、議員109人完成登記　各選區參選名單一次看", source:"聯合報", tag:"登記名單",
+    note:"桃園市選委會公布 2026 年地方公職人員選舉候選人登記統計，內含各選區參選名單。",
+    url:"https://udn.com/vote2026/story/124652/9735457" }
+];
+var OFFICIAL = [
+  { title:"桃園市議會官方網站", source:"桃園市議會", tag:"議事資料",
+    note:"議員介紹、議事日程、議事錄與會議影音由議會依規定公開於網站，請從網站選單進入。",
+    url:"https://www.tycc.gov.tw" },
+  { title:"桃園市議會：本屆議員介紹（中壢區）", source:"桃園市議會", tag:"議員資料",
+    note:"本屆議員名單與基本介紹，其他選區可在該頁切換。",
+    url:"https://www.tycc.gov.tw/tc/councilor-all.aspx?mid=39&area=7" },
+  { title:"中央選舉委員會選舉資料庫", source:"中央選舉委員會", tag:"選舉資料",
+    note:"歷屆選舉的候選人登記與得票資料，也可查詢選舉公報。",
+    url:"https://db.cec.gov.tw" },
+  { title:"中央選舉委員會", source:"中央選舉委員會", tag:"選務公告",
+    note:"選舉日程、法規與各項公告。",
+    url:"https://www.cec.gov.tw" },
+  { title:"政府資料開放平臺", source:"國家發展委員會", tag:"開放資料",
+    note:"可搜尋選舉與議會相關的開放資料集。",
+    url:"https://data.gov.tw" },
+  { title:"聯合報：桃園市議員登記名單", source:"聯合報", tag:"登記名單",
+    note:"桃園市選委會登記統計的新聞整理。",
+    url:"https://udn.com/vote2026/story/124652/9735457" }
+];
+
+/* ===== 程式 ===== */
+function el(id){return document.getElementById(id);}
+function enc(s){return encodeURIComponent(s);}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+var ALL = [];
+DISTRICTS.forEach(function(d){
+  Object.keys(d.parties).forEach(function(p){
+    d.parties[p].forEach(function(n){ ALL.push({name:n, party:p, dist:d.id, r:Math.random()}); });
+  });
+});
+
+var state = {party:"all", area:"all", q:"", sort:"random"};
+
+function cardHTML(c){
+  var s = SOCIAL[c.name] || {};
+  var links = PLAT.filter(function(p){return s[p[0]];}).map(function(p){
+    return '<a href="'+esc(s[p[0]])+'" target="_blank" rel="noopener noreferrer">'+p[1]+'</a>';
+  }).join("");
+  var kw = c.name+" "+SEARCH_KW;
+  return '<article class="card"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
+    + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+'</p></div></div>'
+    + '<div class="acct">'+(links || '<span class="todo">社群帳號待補</span>')+'</div>'
+    + '<details><summary>更多連結</summary><div class="links">'
+    + '<a href="https://news.google.com/search?q='+enc(kw)+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant" target="_blank" rel="noopener noreferrer">Google 新聞</a>'
+    + '<a href="https://www.google.com/search?q='+enc("site:tycc.gov.tw "+c.name)+'" target="_blank" rel="noopener noreferrer">議會紀錄</a>'
+    + '<a href="https://www.facebook.com/search/top?q='+enc(c.name)+'" target="_blank" rel="noopener noreferrer">Facebook 搜尋</a>'
+    + '<a href="https://www.youtube.com/results?search_query='+enc(c.name+" 議員")+'" target="_blank" rel="noopener noreferrer">YouTube 搜尋</a>'
+    + '<a href="https://www.threads.net/search?q='+enc(c.name)+'" target="_blank" rel="noopener noreferrer">Threads 搜尋</a>'
+    + '</div></details></article>';
+}
+
+function match(c){
+  if(state.party!=="all" && c.party!==state.party) return false;
+  if(state.area!=="all" && String(c.dist)!==state.area) return false;
+  if(state.q && c.name.indexOf(state.q)===-1) return false;
+  return true;
+}
+
+function render(){
+  var shown = 0, html = "";
+  DISTRICTS.forEach(function(d){
+    var list = ALL.filter(function(c){return c.dist===d.id && match(c);});
+    if(!list.length) return;
+    if(state.sort==="name") list.sort(function(a,b){return a.name.localeCompare(b.name,"zh-Hant");});
+    else list.sort(function(a,b){return a.r-b.r;});
+    shown += list.length;
+    var total = ALL.filter(function(c){return c.dist===d.id;}).length;
+    html += '<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
+      + '<h2 id="h'+d.id+'">第 '+d.id+' 選區　'+esc(d.name)+'</h2>'
+      + '<span class="s">'+total+' 人角逐 '+d.seats+' 席'+(list.length!==total?'（符合篩選 '+list.length+' 人）':'')+'</span>'
+      + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></div>'
+      + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>';
+  });
+  el("districts").innerHTML = html || '<p class="empty">找不到符合的參選人，請調整政黨、選區或關鍵字。</p>';
+  el("count").textContent = "顯示 "+shown+" 位參選人（全市共 "+ALL.length+" 位）";
+}
+
+function renderParties(){
+  var counts = {};
+  ALL.forEach(function(c){counts[c.party]=(counts[c.party]||0)+1;});
+  var items = [["all","全部",ALL.length]].concat(PARTY_ORDER.filter(function(p){return counts[p];}).map(function(p){return [p,p,counts[p]];}));
+  el("parties").innerHTML = items.map(function(i){
+    return '<button type="button" data-p="'+esc(i[0])+'" aria-pressed="'+(state.party===i[0])+'">'+esc(i[1])+'<span class="c">'+i[2]+'</span></button>';
+  }).join("");
+}
+
+function renderList(id, arr){
+  el(id).innerHTML = arr.map(function(n){
+    return '<li><span class="tag">'+esc(n.tag)+'</span><span class="tag">'+esc(n.source)+'</span><br>'
+      + '<a class="t" href="'+esc(n.url)+'" target="_blank" rel="noopener noreferrer">'+esc(n.title)+'</a>'
+      + '<p>'+esc(n.note)+'</p></li>';
+  }).join("");
+}
+
+function showTab(which){
+  ["c","n","o"].forEach(function(k){
+    el("tab-"+k).setAttribute("aria-selected", k===which);
+    el("panel-"+k).classList.toggle("hidden", k!==which);
+  });
+  el("tools").classList.toggle("hidden", which!=="c");
+}
+
+el("area").innerHTML = '<option value="all">全部選區</option>' + DISTRICTS.map(function(d){
+  return '<option value="'+d.id+'">第 '+d.id+' 選區 '+esc(d.name)+'</option>';
+}).join("");
+
+el("parties").addEventListener("click", function(e){
+  var b = e.target.closest("button"); if(!b) return;
+  state.party = b.getAttribute("data-p"); renderParties(); render();
+});
+el("q").addEventListener("input", function(){state.q=this.value.trim(); render();});
+el("area").addEventListener("change", function(){state.area=this.value; render();});
+el("sort").addEventListener("change", function(){state.sort=this.value; render();});
+["c","n","o"].forEach(function(k){el("tab-"+k).addEventListener("click", function(){showTab(k);});});
+
+(function countdown(){
+  var target = new Date("2026-11-28T00:00:00+08:00").getTime();
+  var d = Math.ceil((target - Date.now())/86400000);
+  el("days").textContent = d>0 ? d : 0;
+})();
+
+renderParties(); render();
+renderList("news", NEWS); renderList("official", OFFICIAL);
+</script>
+</body>
+</html>
