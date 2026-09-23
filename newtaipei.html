@@ -111,6 +111,10 @@ h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,46px);line-
 .parties button[class*="p"]::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--pc);margin-right:6px}
 .inc{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:12px;font-weight:500;line-height:1.7;white-space:nowrap}
 .who{display:flex;gap:12px;align-items:center}
+.who>div:nth-child(2){flex:1;min-width:0}
+.like{flex:none;width:44px;height:44px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.like:hover{border-color:var(--stamp)}
+.like[aria-pressed="true"]{color:#d6336c;border-color:#d6336c}
 .seal{flex:none;width:44px;height:44px;border-radius:8px;background:var(--soft);display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:20px;border:1px solid var(--line)}
 .nm{font-family:var(--serif);font-size:19px;line-height:1.25;margin:0}
 .meta{margin:1px 0 0;font-size:13px;color:var(--muted)}
@@ -204,7 +208,7 @@ footer p{margin:0 0 8px;max-width:48em}
     <nav class="related" aria-labelledby="rel-h">
       <h2 id="rel-h">相關連結</h2>
       <ul>
-        <li><a href="newtaipei.html">新北市議員參選人動態</a></li>
+        <li><a href="./">桃園市議員參選人動態</a></li>
         <li><a href="https://www.sunkuo.cc/gov-open-data-dashboard/" target="_blank" rel="noopener">台灣長照機構查詢儀表板</a></li>
       </ul>
     </nav>
@@ -349,6 +353,7 @@ DISTRICTS.forEach(function(d){
 var ZH = new Intl.Collator(["zh-Hant-TW-u-co-stroke","zh-Hant"]);
 var state = {party:"all", area:"all", q:""};
 
+var LIKED = {};
 function cardHTML(c){
   var s = SOCIAL[c.name] || {};
   var links = PLAT.filter(function(p){return s[p[0]];}).map(function(p){
@@ -356,7 +361,8 @@ function cardHTML(c){
   }).join("");
   var kw = c.name+" "+SEARCH_KW;
   return '<article class="card'+(PCLASS[c.party]?' '+PCLASS[c.party]:'')+'" data-name="'+esc(c.name)+'" data-party="'+esc(c.party)+'" data-dist="'+esc(DISTRICTS[c.dist-1].name)+'"><div class="who"><div class="seal" aria-hidden="true">'+esc(c.name.charAt(0))+'</div>'
-    + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+(INCUMBENTS.indexOf(c.name)>-1?' <span class="inc">現任議員</span>':'')+'</p></div></div>'
+    + '<div><h3 class="nm">'+esc(c.name)+'</h3><p class="meta">'+esc(c.party)+(INCUMBENTS.indexOf(c.name)>-1?' <span class="inc">現任議員</span>':'')+'</p></div>'
+    + '<button type="button" class="like" aria-pressed="'+(LIKED[c.name]?'true':'false')+'" aria-label="為'+esc(c.name)+'按讚">'+(LIKED[c.name]?'♥':'♡')+'</button></div>'
     + '<div class="acct">'+(links || '<span class="todo">社群帳號待補</span>')+'</div>'
     + '<details><summary>更多連結</summary><div class="links">'
     + '<a href="https://news.google.com/search?q='+enc(kw)+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant" target="_blank" rel="noopener noreferrer">Google 新聞</a>'
@@ -449,6 +455,24 @@ function trackClick(ev){
     platform: a.textContent.trim()
   });
 }
+/* GA 事件：候選人卡片按讚（僅在按下讚時送出，取消不計） */
+el("districts").addEventListener("click", function(ev){
+  var b = ev.target.closest && ev.target.closest(".like");
+  var card = b && b.closest(".card");
+  if(!card) return;
+  var name = card.getAttribute("data-name");
+  var on = !LIKED[name];
+  LIKED[name] = on;
+  b.setAttribute("aria-pressed", on ? "true" : "false");
+  b.textContent = on ? "♥" : "♡";
+  if(on && typeof gtag === "function"){
+    gtag("event", "candidate_like", {
+      candidate_name: name,
+      party: card.getAttribute("data-party"),
+      district: card.getAttribute("data-dist")
+    });
+  }
+});
 el("districts").addEventListener("click", trackClick);
 el("districts").addEventListener("auxclick", trackClick);
 
