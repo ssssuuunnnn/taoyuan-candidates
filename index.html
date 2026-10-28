@@ -188,7 +188,7 @@ footer p{margin:0 0 8px;max-width:48em}
 
   <section id="panel-c" role="tabpanel" aria-labelledby="tab-c">
     <div class="parties" id="parties" role="group" aria-label="依政黨篩選"></div>
-    <p class="notice">選區依編號排列；同一選區內依姓名第一個字的筆畫排序，排序固定，所有參選人的呈現方式一致。</p>
+    <p class="notice">選區依編號排列；同一選區內依候選人號次由小到大排序，排序固定，所有參選人的呈現方式一致。</p>
     <p class="count" id="count" aria-live="polite"></p>
     <div id="districts"></div>
   </section>
@@ -447,7 +447,7 @@ function render(){
   DISTRICTS.forEach(function(d){
     var list = ALL.filter(function(c){return c.dist===d.id && match(c);});
     if(!list.length) return;
-    list.sort(function(a,b){return ZH.compare(a.name.charAt(0),b.name.charAt(0)) || ZH.compare(a.name,b.name);});
+    list.sort(function(a,b){return (NUM[a.name]||999)-(NUM[b.name]||999) || ZH.compare(a.name,b.name);});
     shown += list.length;
     var total = ALL.filter(function(c){return c.dist===d.id;}).length;
     html += '<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
