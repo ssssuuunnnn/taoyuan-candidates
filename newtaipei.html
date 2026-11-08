@@ -142,6 +142,19 @@ footer p{margin:0 0 8px;max-width:48em}
 .related h2{font-size:14px;font-weight:700;color:var(--ink);margin:0 0 6px}
 .related ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 18px}
 .related a{color:var(--ink);text-underline-offset:3px}
+.bdx{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;background:var(--ink);color:var(--bg);border:2px solid var(--ink);border-radius:12px;padding:16px 20px;text-decoration:none}
+.bdx:hover{border-color:#c2352b}
+.bdx-m{min-width:0}
+.bdx-l{display:block;font-size:13px;margin-bottom:4px}
+.bdx-l b{font-size:16px;font-weight:700;margin-right:8px}
+.bdx-l span{opacity:.8}
+.bdx-h{display:block;font-family:var(--serif);font-weight:900;font-size:clamp(20px,3vw,24px);line-height:1.3}
+.bdx-t{display:block;font-size:15px;margin-top:4px}
+.bdx-cta{flex:none;background:#c2352b;color:#fff;font-weight:700;font-size:16px;line-height:1.3;border-radius:8px;padding:12px 18px;text-align:center;white-space:nowrap}
+.bdx:hover .bdx-cta{background:#a82b22}
+.bdx-top{margin-top:16px}
+.bdx-feed{margin:26px 0 6px}
+@media (max-width:640px){.bdx{flex-direction:column;align-items:stretch}.bdx-l span{display:block}}
 .hidden{display:none!important}
 @media (max-width:640px){
   .head{grid-template-columns:1fr}
@@ -156,7 +169,6 @@ footer p{margin:0 0 8px;max-width:48em}
 }
 </style>
 </head>
-<!--<script src="https://5gvci.com/act/files/tag.min.js?z=11872006" data-cfasync="false" async></script>-->
 <body>
 <header>
   <div class="wrap head">
@@ -171,6 +183,10 @@ footer p{margin:0 0 8px;max-width:48em}
     </div>
   </div>
 </header>
+
+<aside class="wrap" aria-label="站長的服務">
+  <a class="bdx bdx-top" data-bdx="top" href="https://bookdex.cc/?utm_source=sunkuo&utm_medium=house_ad&utm_campaign=election2026&utm_content=nt_top" target="_blank" rel="noopener sponsored"><span class="bdx-m"><span class="bdx-l"><b>Bookdex 預約簿</b><span>站長的服務・與選舉及候選人無關</span></span><span class="bdx-h">開工作室，常常有客人預約的需求？</span><span class="bdx-t">預約、方案、會員，一個後台全搞定</span></span><span class="bdx-cta">免費試用 30 天 →</span></a>
+</aside>
 
 <main class="wrap">
   <div class="bar">
@@ -210,9 +226,10 @@ footer p{margin:0 0 8px;max-width:48em}
       <ul>
         <li><a href="./">桃園市議員參選人動態</a></li>
         <li><a href="https://www.sunkuo.cc/gov-open-data-dashboard/" target="_blank" rel="noopener">台灣長照機構查詢儀表板</a></li>
+        <li><a data-bdx="footer" href="https://bookdex.cc/?utm_source=sunkuo&utm_medium=house_ad&utm_campaign=election2026&utm_content=nt_footer" target="_blank" rel="noopener sponsored">Bookdex 預約簿：健身與美容小店的預約系統</a>（站長的服務・與選舉及候選人無關）</li>
       </ul>
     </nav>
-    <p>本站為個人非營利專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。本站使用 Google Analytics 統計瀏覽與連結點擊次數，不蒐集可識別個人的資料。</p>
+    <p>本站為個人專案，未受任何候選人、政黨或團體委託或資助，資訊僅供參考。站內含站長自家服務 Bookdex 預約簿 的推廣，不影響參選人的排序與呈現。本站使用 Google Analytics 統計瀏覽與連結點擊次數，不蒐集可識別個人的資料。</p>
     <p>參選人名單整理自新北市選委會公布的候選人登記情形一覽表，名單依新北市選舉委員會 115 年 9 月 4 日製表之登記情形，正式名單以新北市選舉委員會公告為準。貼文與新聞版權屬原作者與原媒體，本站只提供連結，不轉載內容。</p>
     <p>發現資料有誤或想申請更正，請聯絡站長：<a href="mailto:sun889999@gmail.com">sun889999@gmail.com</a>。</p>
   </div>
@@ -354,6 +371,40 @@ var ZH = new Intl.Collator(["zh-Hant-TW-u-co-stroke","zh-Hant"]);
 var state = {party:"all", area:"all", q:""};
 
 var LIKED = {};
+
+/* ===== Bookdex 自家版位：不放進候選人卡片，選區間最多 2 則 ===== */
+var BDX_CITY = "nt", BDX_EVERY = 4, BDX_MAX = 2;
+function bdxFeedHTML(n){
+  var slot = "infeed"+n;
+  return '<aside class="bdx-feed" aria-label="站長的服務"><a class="bdx" data-bdx="'+slot+'" '
+    + 'href="https://bookdex.cc/?utm_source=sunkuo&utm_medium=house_ad&utm_campaign=election2026&utm_content='+BDX_CITY+'_'+slot+'" '
+    + 'target="_blank" rel="noopener sponsored">'
+    + '<span class="bdx-m"><span class="bdx-l"><b>Bookdex 預約簿</b><span>站長的服務・與選舉及候選人無關</span></span><span class="bdx-h">開工作室或美容店？</span><span class="bdx-t">會員預約自動扣堂，取消自動退回，還能串接你的 LINE 官方帳號。不需信用卡。</span></span><span class="bdx-cta">免費試用 30 天 →</span></a></aside>';
+}
+/* GA 事件：版位進入畫面（同一版位每次載入只計一次）與點擊 */
+var bdxSeen = {};
+var bdxIO = "IntersectionObserver" in window ? new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(!en.isIntersecting) return;
+    bdxIO.unobserve(en.target);
+    var slot = en.target.getAttribute("data-bdx");
+    if(bdxSeen[slot]) return;
+    bdxSeen[slot] = true;
+    if(typeof gtag === "function") gtag("event", "bookdex_view", {city: BDX_CITY, slot: slot});
+  });
+}, {threshold:0.5}) : null;
+function bdxObserve(){
+  if(!bdxIO) return;
+  document.querySelectorAll("a[data-bdx]").forEach(function(a){
+    if(!bdxSeen[a.getAttribute("data-bdx")]) bdxIO.observe(a);
+  });
+}
+function bdxClick(ev){
+  var a = ev.target.closest && ev.target.closest("a[data-bdx]");
+  if(a && typeof gtag === "function") gtag("event", "bookdex_click", {city: BDX_CITY, slot: a.getAttribute("data-bdx")});
+}
+document.addEventListener("click", bdxClick);
+document.addEventListener("auxclick", bdxClick);
 function cardHTML(c){
   var s = SOCIAL[c.name] || {};
   var links = PLAT.filter(function(p){return s[p[0]];}).map(function(p){
@@ -381,21 +432,29 @@ function match(c){
 }
 
 function render(){
-  var shown = 0, html = "";
+  var shown = 0, secs = [];
   DISTRICTS.forEach(function(d){
     var list = ALL.filter(function(c){return c.dist===d.id && match(c);});
     if(!list.length) return;
     list.sort(function(a,b){return ZH.compare(a.name.charAt(0),b.name.charAt(0)) || ZH.compare(a.name,b.name);});
     shown += list.length;
     var total = ALL.filter(function(c){return c.dist===d.id;}).length;
-    html += '<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
+    secs.push('<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
       + '<h2 id="h'+d.id+'">第 '+d.id+' 選區　'+esc(d.name)+'</h2>'
       + '<span class="s">'+total+' 人角逐 '+d.seats+' 席'+(list.length!==total?'（符合篩選 '+list.length+' 人）':'')+'</span>'
       + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></div>'
-      + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>';
+      + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>');
   });
+  var html = "", placed = 0;
+  secs.forEach(function(sec, i){
+    html += sec;
+    var n = i + 1;
+    if(n % BDX_EVERY === 0 && n < secs.length && placed < BDX_MAX){ placed++; html += bdxFeedHTML(placed); }
+  });
+  if(secs.length && !placed) html += bdxFeedHTML(1);
   el("districts").innerHTML = html || '<p class="empty">找不到符合的參選人，請調整政黨、選區或關鍵字。</p>';
   el("count").textContent = "顯示 "+shown+" 位參選人（全市共 "+ALL.length+" 位）";
+  bdxObserve();
 }
 
 function renderParties(){
