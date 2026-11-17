@@ -100,7 +100,9 @@ h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,46px);line-
 .dist-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:14px}
 .dist-h h2{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0}
 .dist-h .s{font-size:14px;color:var(--muted)}
-.dist-h a{font-size:13px;color:var(--muted);margin-left:auto}
+.dist-h .lk{display:flex;flex-wrap:wrap;gap:4px 14px;margin-left:auto}
+.dist-h a{font-size:13px;color:var(--muted)}
+.dist-h a.bul{color:var(--ink);font-weight:600}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .card,.parties button{--pt:color-mix(in srgb,var(--pc,var(--ink)) 45%,var(--ink))}
@@ -162,7 +164,7 @@ footer p{margin:0 0 8px;max-width:48em}
   .stub{justify-self:start}
   .tools{width:100%}
   .tools input,.tools select{flex:1 1 140px}
-  .dist-h a{margin-left:0}
+  .dist-h .lk{margin-left:0}
 }
 @media (prefers-reduced-motion:no-preference){
   .card{transition:border-color .15s}
@@ -282,6 +284,15 @@ var DISTRICTS = [
  {id:14,name:"山地原住民",seats:4,src:"https://tyenews.com/2026/09/1402963",parties:{
   "中國國民黨":["陳瑛","張倉豪","簡志偉"],"民主進步黨":["謝卓儒"],"無黨籍":["林秋霖","邱伯倫","蘇偉恩","曾庭筠"]}}
 ];
+
+/* ===== 選舉公報（中央選舉委員會） =====
+   BULLETIN_DIR：115 年桃園市議員選舉公報的目錄頁。
+   BULLETIN：選區 id → 該選區公報 PDF 網址。尚未填入的選區會先連到目錄頁，
+   拿到確切檔名後把網址補進來即可，不需改其他程式。 */
+var BULLETIN_DIR = "https://bulletin.cec.gov.tw/?dir=01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1%2F05%E7%9B%B4%E8%BD%84%E5%B8%82%E8%AD%B0%E5%93%A1%2F115%E5%B9%B4%2F06%E6%A1%83%E5%9C%92%E5%B8%82";
+var BULLETIN = {
+  5: "https://eebulletin.cec.gov.tw/115/06%E6%A1%83%E5%9C%92%E5%B8%82/02%E5%B8%82%E8%AD%B0%E5%93%A1/115-%E6%A1%83%E5%9C%92%E5%B8%82%E8%AD%B0%E6%9C%83%E7%AC%AC4%E5%B1%86%E7%AC%AC05%E9%81%B8%E8%88%89%E5%8D%80.pdf"
+};
 
 /* ===== 候選人號次：以姓名為 key，依桃園市選舉委員會公告的候選人號次抽籤結果 =====
    來源：使用者提供之各選區候選人號次名單（2026-10-28） */
@@ -407,6 +418,9 @@ var OFFICIAL = [
   { title:"桃園市議會：本屆議員介紹（中壢區）", source:"桃園市議會", tag:"議員資料",
     note:"本屆議員名單與基本介紹，其他選區可在該頁切換。",
     url:"https://www.tycc.gov.tw/tc/councilor-all.aspx?mid=39&area=7" },
+  { title:"115 年桃園市議員選舉公報（各選區 PDF）", source:"中央選舉委員會", tag:"選舉公報",
+    note:"各選區候選人的學經歷、政見與投開票所一覽，由桃園市選舉委員會編印。",
+    url:BULLETIN_DIR },
   { title:"中央選舉委員會選舉資料庫", source:"中央選舉委員會", tag:"選舉資料",
     note:"歷屆選舉的候選人登記與得票資料，也可查詢選舉公報。",
     url:"https://db.cec.gov.tw" },
@@ -509,7 +523,8 @@ function render(){
     secs.push('<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
       + '<h2 id="h'+d.id+'">第 '+d.id+' 選區　'+esc(d.name)+'</h2>'
       + '<span class="s">'+total+' 人角逐 '+d.seats+' 席'+(list.length!==total?'（符合篩選 '+list.length+' 人）':'')+'</span>'
-      + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></div>'
+      + '<span class="lk"><a class="bul" href="'+esc(BULLETIN[d.id]||BULLETIN_DIR)+'" target="_blank" rel="noopener noreferrer" data-bulletin="'+d.id+'">'+(BULLETIN[d.id]?'選舉公報 PDF':'選舉公報（中選會）')+'</a>'
+      + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></span></div>'
       + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>');
   });
   var html = "", placed = 0;
