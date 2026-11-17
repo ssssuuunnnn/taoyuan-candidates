@@ -100,9 +100,12 @@ h1{font-family:var(--serif);font-weight:900;font-size:clamp(28px,5vw,46px);line-
 .dist-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:14px}
 .dist-h h2{font-family:var(--serif);font-size:24px;line-height:1.25;margin:0}
 .dist-h .s{font-size:14px;color:var(--muted)}
-.dist-h .lk{display:flex;flex-wrap:wrap;gap:4px 14px;margin-left:auto}
+.dist-h .lk{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin-left:auto}
 .dist-h a{font-size:13px;color:var(--muted)}
-.dist-h a.bul{color:var(--ink);font-weight:600}
+.dist-h a.bul{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;line-height:1.2;color:var(--bg);background:var(--ink);border:1px solid var(--ink);border-radius:999px;padding:7px 14px;min-height:36px;text-decoration:none}
+.dist-h a.bul svg{width:15px;height:15px;flex:none}
+.dist-h a.bul:hover{background:var(--stamp);border-color:var(--stamp);color:#fff}
+.dist-h a.bul:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .card,.parties button{--pt:color-mix(in srgb,var(--pc,var(--ink)) 45%,var(--ink))}
@@ -293,6 +296,7 @@ var DISTRICTS = [
 var BULLETIN_DIR = "https://bulletin.cec.gov.tw/?dir=01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1%2F05%E7%9B%B4%E8%BD%84%E5%B8%82%E8%AD%B0%E5%93%A1%2F115%E5%B9%B4%2F06%E6%A1%83%E5%9C%92%E5%B8%82";
 var BULLETIN_BASE = "https://eebulletin.cec.gov.tw/115/" + encodeURIComponent("06桃園市") + "/" + encodeURIComponent("02市議員") + "/";
 var BULLETIN_FIX = {};
+var BUL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
 var BULLETIN = {};
 DISTRICTS.forEach(function(d){
   BULLETIN[d.id] = BULLETIN_FIX[d.id] || BULLETIN_BASE + encodeURIComponent("115-桃園市議會第4屆第" + (d.id<10?"0":"") + d.id + "選舉區.pdf");
@@ -527,7 +531,7 @@ function render(){
     secs.push('<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
       + '<h2 id="h'+d.id+'">第 '+d.id+' 選區　'+esc(d.name)+'</h2>'
       + '<span class="s">'+total+' 人角逐 '+d.seats+' 席'+(list.length!==total?'（符合篩選 '+list.length+' 人）':'')+'</span>'
-      + '<span class="lk"><a class="bul" href="'+esc(BULLETIN[d.id]||BULLETIN_DIR)+'" target="_blank" rel="noopener noreferrer" data-bulletin="'+d.id+'">選舉公報 PDF</a>'
+      + '<span class="lk"><a class="bul" href="'+esc(BULLETIN[d.id]||BULLETIN_DIR)+'" target="_blank" rel="noopener noreferrer" data-bulletin="'+d.id+'" aria-label="第 '+d.id+' 選區選舉公報 PDF（另開新視窗）">'+BUL_ICON+'選舉公報 PDF</a>'
       + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></span></div>'
       + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>');
   });
