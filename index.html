@@ -327,11 +327,11 @@ var DISTRICTS = [
 
 /* ===== 選舉公報（中央選舉委員會） =====
    BULLETIN_DIR：115 年桃園市議員選舉公報的目錄頁（官方資源清單用）。
-   BULLETIN：選區 id → 該選區公報 PDF 網址，依中選會電子公報的檔名規則
-   「115-桃園市議會第4屆第NN選舉區.pdf」產生（NN 為兩位數選區編號）。
-   若某一區的實際檔名不同，在 BULLETIN_FIX 以選區 id 覆寫完整網址即可。 */
+   BULLETIN：選區 id → 該選區公報 PDF 網址。檔名依中選會目錄頁所列：
+   「115-桃園市議會第4屆第NN選舉區.pdf」（NN 為兩位數選區編號，01–14）。
+   若日後某一區檔名變動，在 BULLETIN_FIX 以選區 id 覆寫完整網址即可。 */
 var BULLETIN_DIR = "https://bulletin.cec.gov.tw/?dir=01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1%2F05%E7%9B%B4%E8%BD%84%E5%B8%82%E8%AD%B0%E5%93%A1%2F115%E5%B9%B4%2F06%E6%A1%83%E5%9C%92%E5%B8%82";
-var BULLETIN_BASE = "https://eebulletin.cec.gov.tw/115/" + encodeURIComponent("06桃園市") + "/" + encodeURIComponent("02市議員") + "/";
+var BULLETIN_BASE = "https://bulletin.cec.gov.tw/" + ["01選舉公報","05直轄市議員","115年","06桃園市"].map(encodeURIComponent).join("/") + "/";
 var BULLETIN_FIX = {};
 var BUL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>';
 var BULLETIN = {};
