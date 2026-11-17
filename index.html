@@ -286,13 +286,17 @@ var DISTRICTS = [
 ];
 
 /* ===== 選舉公報（中央選舉委員會） =====
-   BULLETIN_DIR：115 年桃園市議員選舉公報的目錄頁。
-   BULLETIN：選區 id → 該選區公報 PDF 網址。尚未填入的選區會先連到目錄頁，
-   拿到確切檔名後把網址補進來即可，不需改其他程式。 */
+   BULLETIN_DIR：115 年桃園市議員選舉公報的目錄頁（官方資源清單用）。
+   BULLETIN：選區 id → 該選區公報 PDF 網址，依中選會電子公報的檔名規則
+   「115-桃園市議會第4屆第NN選舉區.pdf」產生（NN 為兩位數選區編號）。
+   若某一區的實際檔名不同，在 BULLETIN_FIX 以選區 id 覆寫完整網址即可。 */
 var BULLETIN_DIR = "https://bulletin.cec.gov.tw/?dir=01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1%2F05%E7%9B%B4%E8%BD%84%E5%B8%82%E8%AD%B0%E5%93%A1%2F115%E5%B9%B4%2F06%E6%A1%83%E5%9C%92%E5%B8%82";
-var BULLETIN = {
-  5: "https://eebulletin.cec.gov.tw/115/06%E6%A1%83%E5%9C%92%E5%B8%82/02%E5%B8%82%E8%AD%B0%E5%93%A1/115-%E6%A1%83%E5%9C%92%E5%B8%82%E8%AD%B0%E6%9C%83%E7%AC%AC4%E5%B1%86%E7%AC%AC05%E9%81%B8%E8%88%89%E5%8D%80.pdf"
-};
+var BULLETIN_BASE = "https://eebulletin.cec.gov.tw/115/" + encodeURIComponent("06桃園市") + "/" + encodeURIComponent("02市議員") + "/";
+var BULLETIN_FIX = {};
+var BULLETIN = {};
+DISTRICTS.forEach(function(d){
+  BULLETIN[d.id] = BULLETIN_FIX[d.id] || BULLETIN_BASE + encodeURIComponent("115-桃園市議會第4屆第" + (d.id<10?"0":"") + d.id + "選舉區.pdf");
+});
 
 /* ===== 候選人號次：以姓名為 key，依桃園市選舉委員會公告的候選人號次抽籤結果 =====
    來源：使用者提供之各選區候選人號次名單（2026-10-28） */
@@ -523,7 +527,7 @@ function render(){
     secs.push('<section class="dist" id="d'+d.id+'" aria-labelledby="h'+d.id+'"><div class="dist-h">'
       + '<h2 id="h'+d.id+'">第 '+d.id+' 選區　'+esc(d.name)+'</h2>'
       + '<span class="s">'+total+' 人角逐 '+d.seats+' 席'+(list.length!==total?'（符合篩選 '+list.length+' 人）':'')+'</span>'
-      + '<span class="lk"><a class="bul" href="'+esc(BULLETIN[d.id]||BULLETIN_DIR)+'" target="_blank" rel="noopener noreferrer" data-bulletin="'+d.id+'">'+(BULLETIN[d.id]?'選舉公報 PDF':'選舉公報（中選會）')+'</a>'
+      + '<span class="lk"><a class="bul" href="'+esc(BULLETIN[d.id]||BULLETIN_DIR)+'" target="_blank" rel="noopener noreferrer" data-bulletin="'+d.id+'">選舉公報 PDF</a>'
       + '<a href="'+esc(d.src)+'" target="_blank" rel="noopener noreferrer">名單來源</a></span></div>'
       + '<div class="grid">'+list.map(cardHTML).join("")+'</div></section>');
   });
